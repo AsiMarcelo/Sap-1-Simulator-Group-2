@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10191c">
+  <title>SAP-1 Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">S1</div>
+    <div><p class="eyebrow">COMPUTER ARCHITECTURE</p><h1>SAP-1 Simulator</h1></div>
+    <div class="status-pill"><span class="status-dot" id="statusDot"></span><span id="statusText">Ready</span></div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">16 × 8 BIT MACHINE</p><h2>See each instruction come to life.</h2>
+      <p>Load a small program, step through the fetch–decode–execute cycle, and watch values move through the SAP-1.</p></div>
+      <div class="cycle-chip"><span>FETCH</span><b>→</b><span>DECODE</span><b>→</b><span>EXECUTE</span></div>
+    </section>
+
+    <section class="workspace">
+      <div class="main-column">
+        <section class="panel machine-panel">
+          <div class="panel-heading"><div><p class="eyebrow">LIVE MACHINE</p><h2>Architecture view</h2></div><span class="hex-hint">HEX VALUES · 8-BIT BUS</span></div>
+          <div class="architecture">
+            <div class="register-row">
+              <article class="register" id="reg-PC"><span class="reg-name">PROGRAM COUNTER</span><strong id="value-PC">00</strong><span class="reg-bits" id="bits-PC">0000</span></article>
+              <article class="register" id="reg-MAR"><span class="reg-name">MEMORY ADDRESS</span><strong id="value-MAR">00</strong><span class="reg-bits" id="bits-MAR">0000</span></article>
+              <article class="register" id="reg-IR"><span class="reg-name">INSTRUCTION</span><strong id="value-IR">00</strong><span class="reg-bits" id="bits-IR">0000 0000</span></article>
+            </div>
+            <div class="bus-lane"><span class="bus-label">W-BUS</span><span class="bus-line"><i id="busPulse"></i></span><span class="bus-value" id="busValue">—</span></div>
+            <div class="register-row lower-registers">
+              <article class="register accent" id="reg-A"><span class="reg-name">ACCUMULATOR</span><strong id="value-A">00</strong><span class="reg-bits" id="bits-A">0000 0000</span></article>
+              <article class="register" id="reg-B"><span class="reg-name">B-REGISTER</span><strong id="value-B">00</strong><span class="reg-bits" id="bits-B">0000 0000</span></article>
+              <article class="register output-register" id="reg-OUT"><span class="reg-name">OUTPUT REGISTER</span><strong id="value-OUT">00</strong><span class="reg-bits" id="bits-OUT">0000 0000</span></article>
+            </div>
+            <div class="alu-strip"><span class="alu-icon">±</span><span><b>ALU</b><small>8-bit adder / subtractor · two’s complement</small></span><span class="alu-op" id="aluOperation">IDLE</span></div>
+          </div>
+        </section>
+
+        <section class="panel memory-panel">
+          <div class="panel-heading"><div><p class="eyebrow">MAIN MEMORY</p><h2>RAM <span class="subtle">16 addresses</span></h2></div><span class="legend"><i></i> Current address</span></div>
+          <div class="ram-grid" id="ramGrid" aria-label="RAM memory locations"></div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section class="panel controls-panel">
+          <div class="panel-heading"><div><p class="eyebrow">PROGRAM</p><h2>Load instructions</h2></div></div>
+          <p class="helper">One instruction per line. Use hexadecimal addresses 0–F.</p>
+          <label for="programInput" class="field-label">ASSEMBLY PROGRAM</label>
+          <textarea id="programInput" spellcheck="false" aria-label="Assembly program"></textarea>
+          <div class="data-heading"><span class="field-label">DATA VALUES</span><span class="helper">Hexadecimal</span></div>
+          <div class="data-inputs">
+            <label><span>Address 9</span><input id="data9" inputmode="text" maxlength="2" value="25" aria-label="Value at address 9"></label>
+            <label><span>Address A</span><input id="dataA" inputmode="text" maxlength="2" value="05" aria-label="Value at address A"></label>
+            <label><span>Address B</span><input id="dataB" inputmode="text" maxlength="2" value="23" aria-label="Value at address B"></label>
+          </div>
+          <button class="button button-primary full" id="loadButton">Load program <span>↓</span></button>
+          <div class="divider"></div>
+          <div class="run-controls"><button class="button button-primary" id="stepButton" disabled>Step <span>→</span></button><button class="button button-dark" id="runButton" disabled>Run <span>▶</span></button></div>
+          <button class="button button-quiet full" id="resetButton">Reset machine <span>↺</span></button>
+          <label class="speed-control" for="speedInput"><span>Run speed</span><input type="range" id="speedInput" min="150" max="1000" value="500"><span id="speedLabel">0.5s</span></label>
+          <p class="message" id="message" role="status">Enter a program, then load it into memory.</p>
+        </section>
+
+        <section class="panel output-panel">
+          <div class="panel-heading"><div><p class="eyebrow">BINARY OUTPUT</p><h2>Output LEDs</h2></div><span class="output-hex" id="outputHex">00H</span></div>
+          <div class="led-row" id="ledRow" aria-label="Output value in binary"></div>
+          <div class="bit-labels"><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
+          <p class="output-caption" id="outputCaption">No output yet. Run an OUT instruction.</p>
+        </section>
+
+        <section class="panel log-panel"><div class="panel-heading"><div><p class="eyebrow">EXECUTION</p><h2>Activity</h2></div><span class="step-count" id="stepCount">0 steps</span></div><ol id="activityLog" class="activity-log"><li class="empty-log">Your execution steps will appear here.</li></ol></section>
+      </aside>
+    </section>
+    <footer><span>SAP-1 · SIMPLE-AS-POSSIBLE COMPUTER</span><span>Designed for learning the fetch–decode–execute cycle</span></footer>
+  </main>
+</body>
+</html>
