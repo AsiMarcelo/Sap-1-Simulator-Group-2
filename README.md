@@ -5,9 +5,10 @@ A small, browser-based SAP-1 teaching simulator built with plain HTML, CSS, and 
 ## Run the simulator
 
 1. Download or clone this folder.
-2. Open `index.html` in a modern web browser.
-3. Edit the assembly instructions or the hexadecimal values at addresses `9H`, `AH`, and `BH`.
-4. Select **Load program**, then use **Step** or **Run**.
+2. Download live server extension in vscode.
+3. Right click `index.html` and open with live server.
+4. Edit the assembly instructions or the hexadecimal values at addresses `9H`, `AH`, and `BH`.
+5. Select **Load program**, then use **Step** or **Run**.
 
 No packages or build tools are required. An internet connection is only needed to load the optional Google Fonts; the simulator itself runs locally.
 
