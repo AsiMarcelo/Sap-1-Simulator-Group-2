@@ -14,7 +14,7 @@ No packages or build tools are required. An internet connection is only needed t
 
 ## Language and framework
 
-This project uses HTML, CSS, and vanilla JavaScript without a framework. That keeps the simulator easy to run and makes the SAP-1 register and instruction logic visible to students who are learning architecture and web development.
+This project employs HTML, CSS, and pure JavaScript without utilizing any framework. This maintains the simulator's simplicity and allows students studying architecture and web development to see the SAP-1 register and instruction logic.
 
 ## Instruction format
 
@@ -28,7 +28,7 @@ Enter one instruction on each line. Addresses are one hexadecimal digit from `0`
 | `OUT` | `E` | Copy the accumulator to the output register |
 | `HLT` | `F` | Stop execution |
 
-Lines may include comments after a semicolon. Programs must include `HLT`. The default program computes `25H + 05H − 23H`, producing `07H`. Change the three data fields and load again to try other values.
+Lines might have remarks following a semicolon. Programs are required to include `HLT`. The standard program calculates `25H + 05H − 23H`, resulting in `07H`. Modify the three data fields and reload to experiment with different values.
 
 ## Upload to GitHub with VS Code
 
@@ -40,4 +40,4 @@ Lines may include comments after a semicolon. Programs must include `HLT`. The d
 
 ## Current scope
 
-The simulator executes one complete instruction per **Step**. Register and RAM values display in hexadecimal, with binary shown beneath the registers. The memory panel highlights the current instruction or operand address. Arithmetic wraps to 8 bits, matching the register width.
+The simulator performs a full instruction for each **Step**. Register and RAM values are shown in hexadecimal, with binary displayed underneath the registers. The memory panel emphasizes the present instruction or operand address. Arithmetic rolls over to 8 bits, aligning with the width of the register.
