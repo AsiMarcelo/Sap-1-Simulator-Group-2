@@ -66,15 +66,47 @@
       program.push((opcodes[op] << 4) | operand);
     });
     if (!program.some((byte) => (byte >> 4) === opcodes.HLT)) throw new Error('Add HLT so the machine knows when to stop.');
-    const data = { 9: readByte('data9'), 10: readByte('dataA'), 11: readByte('dataB') };
+    const entries = [1, 2, 3].filter((index) => $(`dataAddr${index}`).value !== '').map((index) => ({
+      address: readAddress(`dataAddr${index}`),
+      value: readByte(`dataVal${index}`),
+    }));
+    const data = {};
+    entries.forEach(({ address, value }) => {
+      if (Object.hasOwn(data, address)) throw new Error(`Address ${hex(address, 1)}H is used by more than one data value.`);
+      data[address] = value;
+    });
     Object.keys(data).forEach((addr) => {
       if (Number(addr) < program.length) throw new Error(`The program uses address ${hex(Number(addr), 1)}H, which conflicts with the data values. Use fewer instructions or move data addresses in the code.`);
     });
+    const referenced = [...new Set(program.filter((byte) => [opcodes.LDA, opcodes.ADD, opcodes.SUB].includes(byte >> 4)).map((byte) => byte & 15))];
+    if (referenced.length > 3) throw new Error('This panel supports up to three different data addresses.');
+    const missingData = referenced.find((address) => !Object.hasOwn(data, address));
+    if (missingData !== undefined) throw new Error(`Enter a value for address ${hex(missingData, 1)}H.`);
     return { program, data };
+  }
+  function syncDataAddresses() {
+    const usedAddresses = [];
+    $('programInput').value.split(/\r?\n/).forEach((raw) => {
+      const line = raw.split(';')[0].trim();
+      const match = line.match(/^(?:LDA|ADD|SUB)\s+([0-9a-f])(?:h)?$/i);
+      if (!match) return;
+      const address = parseInt(match[1], 16);
+      if (!usedAddresses.includes(address)) usedAddresses.push(address);
+    });
+    [1, 2, 3].forEach((index) => {
+      const field = $(`dataAddr${index}`);
+      field.value = usedAddresses[index - 1] === undefined ? '' : hex(usedAddresses[index - 1], 1);
+      field.placeholder = '—';
+    });
+  }
+  function readAddress(id) {
+    const value = $(id).value.trim();
+    if (!/^[0-9a-f]$/i.test(value)) throw new Error('Data addresses must be one hexadecimal digit from 0 to F.');
+    return parseInt(value, 16);
   }
   function readByte(id) {
     const value = $(id).value.trim();
-    if (!/^[0-9a-f]{1,2}$/i.test(value)) throw new Error(`${$(id).parentElement.firstElementChild.textContent}: enter a hex value from 00 to FF.`);
+    if (!/^[0-9a-f]{1,2}$/i.test(value)) throw new Error(`Enter a data value from 00 to FF.`);
     return parseInt(value, 16);
   }
   function loadProgram() {
@@ -91,7 +123,7 @@
       $('stepButton').disabled = false; $('runButton').disabled = false;
       renderRegisters(); renderRam();
       setStatus('Loaded');
-      message(`Loaded ${parsed.program.length} instructions and data at 9H, AH, and BH.`);
+      message(`Loaded ${parsed.program.length} instructions and three data values.`);
     } catch (error) { message(error.message, true); }
   }
   function step(fromRun = false) {
@@ -157,11 +189,13 @@
   }
   function init() {
     $('programInput').value = defaultProgram;
+    syncDataAddresses();
     registers = blankRegisters(); registers.hasOutput = false;
     $('ramGrid').innerHTML = Array.from({ length: 16 }, (_, i) => `<div class="ram-cell"><span class="ram-address">${hex(i, 1)}H</span><span class="ram-value">00</span></div>`).join('');
     $('ledRow').innerHTML = Array.from({ length: 8 }, () => '<span class="led"></span>').join('');
     renderRegisters();
     $('loadButton').addEventListener('click', loadProgram);
+    $('programInput').addEventListener('input', syncDataAddresses);
     $('stepButton').addEventListener('click', step);
     $('runButton').addEventListener('click', run);
     $('resetButton').addEventListener('click', reset);

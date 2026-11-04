@@ -56,9 +56,9 @@
           <textarea id="programInput" spellcheck="false" aria-label="Assembly program"></textarea>
           <div class="data-heading"><span class="field-label">DATA VALUES</span><span class="helper">Hexadecimal</span></div>
           <div class="data-inputs">
-            <label><span>Address 9</span><input id="data9" inputmode="text" maxlength="2" value="25" aria-label="Value at address 9"></label>
-            <label><span>Address A</span><input id="dataA" inputmode="text" maxlength="2" value="05" aria-label="Value at address A"></label>
-            <label><span>Address B</span><input id="dataB" inputmode="text" maxlength="2" value="23" aria-label="Value at address B"></label>
+            <label><span>ADDRESS / VALUE</span><span class="data-pair"><input id="dataAddr1" value="9" aria-label="First data address" readonly><input id="dataVal1" inputmode="text" maxlength="2" value="25" aria-label="First data value"></span></label>
+            <label><span>ADDRESS / VALUE</span><span class="data-pair"><input id="dataAddr2" value="A" aria-label="Second data address" readonly><input id="dataVal2" inputmode="text" maxlength="2" value="05" aria-label="Second data value"></span></label>
+            <label><span>ADDRESS / VALUE</span><span class="data-pair"><input id="dataAddr3" value="B" aria-label="Third data address" readonly><input id="dataVal3" inputmode="text" maxlength="2" value="23" aria-label="Third data value"></span></label>
           </div>
           <button class="button button-primary full" id="loadButton">Load program <span>↓</span></button>
           <div class="divider"></div>
