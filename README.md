@@ -29,13 +29,6 @@ Enter one instruction on each line. Addresses are one hexadecimal digit from `0`
 | `HLT` | `F` | Stop execution |
 
 Lines might contain remarks following a semicolon. Programs need to have `HLT` included. The standard program calculates `25H + 05H − 23H`, yielding `07H`. Modify the three data fields and reload to test different values.
-## Upload to GitHub with VS Code
-
-1. Open this folder in VS Code.
-2. Select **Source Control** and choose **Initialize Repository**.
-3. Stage the files with **+**, enter a commit message, and select **Commit**.
-4. Press **Ctrl+Shift+P**, run **Git: Add Remote**, paste your GitHub repository link, and name the remote `origin`.
-5. Press **Ctrl+Shift+P** and run **Git: Push** or **Publish Branch**.
 
 ## Current scope
 
