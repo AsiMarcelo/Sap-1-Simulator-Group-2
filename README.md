@@ -1,6 +1,6 @@
 # Sap-1-Simulator-Group-2
 
-A small, browser-based SAP-1 teaching simulator built with plain HTML, CSS, and JavaScript. It shows the core registers, 16 × 8-bit RAM, a W-Bus activity indicator, the ALU operation, execution log, and an 8-bit LED output.
+A compact online SAP-1 educational simulator created using standard HTML, CSS, and JavaScript. It displays the main registers, 16 × 8-bit RAM, a W-Bus activity monitor, the ALU function, execution history, and an 8-bit LED output.
 
 ## Run the simulator
 
@@ -14,7 +14,7 @@ No packages or build tools are required. An internet connection is only needed t
 
 ## Language and framework
 
-This project uses HTML, CSS, and vanilla JavaScript without a framework. That keeps the simulator easy to run and makes the SAP-1 register and instruction logic visible to students who are learning architecture and web development.
+This initiative employs HTML, CSS, and plain JavaScript without utilizing a framework. This ensures the simulator is simple to operate and allows students studying architecture and web development to see the SAP-1 register and instruction logic.
 
 ## Instruction format
 
@@ -28,8 +28,7 @@ Enter one instruction on each line. Addresses are one hexadecimal digit from `0`
 | `OUT` | `E` | Copy the accumulator to the output register |
 | `HLT` | `F` | Stop execution |
 
-Lines may include comments after a semicolon. Programs must include `HLT`. The default program computes `25H + 05H − 23H`, producing `07H`. Change the three data fields and load again to try other values.
-
+Lines might contain remarks following a semicolon. Programs need to have `HLT` included. The standard program calculates `25H + 05H − 23H`, yielding `07H`. Modify the three data fields and reload to test different values.
 ## Upload to GitHub with VS Code
 
 1. Open this folder in VS Code.
@@ -40,4 +39,5 @@ Lines may include comments after a semicolon. Programs must include `HLT`. The d
 
 ## Current scope
 
-The simulator executes one complete instruction per **Step**. Register and RAM values display in hexadecimal, with binary shown beneath the registers. The memory panel highlights the current instruction or operand address. Arithmetic wraps to 8 bits, matching the register width.
+The simulator performs a full instruction with each **Step**. Register and RAM values are presented in hexadecimal, while binary is displayed underneath the registers. The memory panel emphasizes the address of the current instruction or operand. Arithmetic cycles through 8 bits, aligning with the register size.
+
