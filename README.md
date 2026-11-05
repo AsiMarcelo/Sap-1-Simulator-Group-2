@@ -28,7 +28,7 @@ Enter one instruction on each line. Addresses are one hexadecimal digit from `0`
 | `OUT` | `E` | Copy the accumulator to the output register |
 | `HLT` | `F` | Stop execution |
 
-Lines might contain remarks following a semicolon. Programs need to have `HLT` included. The standard program calculates `25H + 05H − 23H`, yielding `07H`. Modify the three data fields and reload to test different values.
+Programs need to have `HLT` included. The standard program calculates `25H + 05H − 23H`, yielding `07H`. Modify the three data fields and reload to test different values.
 ## Upload to GitHub with VS Code
 
 1. Open this folder in VS Code.
